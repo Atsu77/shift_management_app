@@ -6,4 +6,7 @@ class Student < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
   include DeviseTokenAuth::Concerns::User
+
+  validates :address, length: { maximum: 75 }
+  validates :number, length: { maximum: 15 }
 end
