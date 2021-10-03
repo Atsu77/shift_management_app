@@ -8,6 +8,7 @@ class Teacher < ActiveRecord::Base
   include DeviseTokenAuth::Concerns::User
 
   has_many :specialties
+  has_many :subjects, through: :specialties
 
   validates :address, length: { maximum: 75 }
   validates :number, length: { maximum: 15 }
