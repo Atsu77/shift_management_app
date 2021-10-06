@@ -3,7 +3,7 @@ class Api::V1::SubjectsController < ApplicationController
     user = current_api_v1_teacher
     render json: {
       status: :ok,
-      user: user,
+      teacher: user,
       subjects: user.subjects
       }
   end
@@ -12,6 +12,21 @@ class Api::V1::SubjectsController < ApplicationController
     user = current_api_v1_teacher
     subjects = user.subjects.build(subject_params.to_h)
     if subjects.save!
+      render json: {
+        status: :ok,
+        teacher: user,
+        subjects: subjects
+      }
+    elsif subjects
+      response_bad_request
+    else
+      response_unauthorized
+    end
+  end
+
+  def update
+    user = current_api_v1_teacher
+    if subjects = user.subjects.update(subject_params.to_h)
       render json: {
         status: :ok,
         teacher: user,
