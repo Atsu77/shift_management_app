@@ -10,10 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_30_022808) do
+ActiveRecord::Schema.define(version: 2021_10_02_045508) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "specialties", force: :cascade do |t|
+    t.bigint "teacher_id"
+    t.bigint "subject_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["subject_id"], name: "index_specialties_on_subject_id"
+    t.index ["teacher_id"], name: "index_specialties_on_teacher_id"
+  end
 
   create_table "students", force: :cascade do |t|
     t.string "provider", default: "email", null: false
@@ -39,6 +48,16 @@ ActiveRecord::Schema.define(version: 2021_09_30_022808) do
     t.index ["email"], name: "index_students_on_email", unique: true
     t.index ["reset_password_token"], name: "index_students_on_reset_password_token", unique: true
     t.index ["uid", "provider"], name: "index_students_on_uid_and_provider", unique: true
+  end
+
+  create_table "subjects", force: :cascade do |t|
+    t.boolean "japanese", default: false, null: false
+    t.boolean "society", default: false, null: false
+    t.boolean "math", default: false, null: false
+    t.boolean "science", default: false, null: false
+    t.boolean "english", default: false, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "teachers", force: :cascade do |t|
@@ -68,4 +87,6 @@ ActiveRecord::Schema.define(version: 2021_09_30_022808) do
     t.index ["uid", "provider"], name: "index_teachers_on_uid_and_provider", unique: true
   end
 
+  add_foreign_key "specialties", "subjects"
+  add_foreign_key "specialties", "teachers"
 end

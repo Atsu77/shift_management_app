@@ -7,6 +7,9 @@ class Teacher < ActiveRecord::Base
          :recoverable, :rememberable, :validatable
   include DeviseTokenAuth::Concerns::User
 
+  has_many :specialties
+  has_many :subjects, through: :specialties
+
   validates :address, length: { maximum: 75 }
   validates :number, length: { maximum: 15 }
   validates :profile, length: { maximum: 300 }
